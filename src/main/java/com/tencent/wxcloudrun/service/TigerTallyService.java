@@ -99,7 +99,6 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
 
     public TigerTallyService() throws FileNotFoundException {
         String soPath = "classpath:files/libtiger_tally.so";
-        String apkPath = "classpath:files/pkt.apk";
         emulator = androidEmulatorBuilder.build();
         SyscallHandler<AndroidFileIO> syscallHandler =
                 emulator.getSyscallHandler();
