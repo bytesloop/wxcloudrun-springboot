@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 @RestController
@@ -17,7 +17,7 @@ public class TigerTallyController {
     final TigerTallyService myTigerTallyService;
     final Logger logger;
 
-    public TigerTallyController(@Autowired CounterService counterService) throws FileNotFoundException {
+    public TigerTallyController(@Autowired CounterService counterService) throws IOException {
         this.myTigerTallyService = TigerTallyService.getInstance();
         this.logger = LoggerFactory.getLogger(CounterController.class);
     }

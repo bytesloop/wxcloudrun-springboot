@@ -20,6 +20,7 @@ import com.github.unidbg.spi.SyscallHandler;
 import com.github.unidbg.unix.UnixSyscallHandler;
 import com.github.unidbg.linux.android.dvm.array.ArrayObject;
 import com.sun.jna.Pointer;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -97,8 +98,11 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
         emulator.close();
     }
 
-    public TigerTallyService() throws FileNotFoundException {
-        String soPath = "classpath:files/libtiger_tally.so";
+    public TigerTallyService() throws IOException {
+        // String soPath = "classpath:files/libtiger_tally.so";  // ResourceUtils.getFile(soPath),
+        ClassPathResource resource = new ClassPathResource("files/libtiger_tally.so");
+        File soFile = resource.getFile(); // 此方法会解压资源到一个临时文件
+
         emulator = androidEmulatorBuilder.build();
         SyscallHandler<AndroidFileIO> syscallHandler =
                 emulator.getSyscallHandler();
@@ -107,7 +111,7 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
         Memory memory = emulator.getMemory();
         memory.setLibraryResolver(new AndroidResolver(23));
         vm = emulator.createDalvikVM();
-        DalvikModule dm = vm.loadLibrary(ResourceUtils.getFile(soPath), true); // 加载so到虚拟内存
+        DalvikModule dm = vm.loadLibrary(soFile, true); // 加载so到虚拟内存
         module = dm.getModule(); //获取本SO模块的句柄
         vm.setJni(this);
         vm.setVerbose(false);
@@ -116,7 +120,7 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
     }
 
     // 获取TigerTallyAPI实例
-    public static TigerTallyService getInstance() throws FileNotFoundException {
+    public static TigerTallyService getInstance() throws IOException {
         if(myTigerTallyAPI == null){
             myTigerTallyAPI = new TigerTallyService();
             myTigerTallyAPI.avmpSign("", true);  // 初始化AVMP
@@ -124,7 +128,7 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
         return myTigerTallyAPI;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         TigerTallyService tiger = getInstance();  // 获取TigerTally实例
         String wtoken = tiger.avmpSign("{\"categoryId\":1,\"inquiryFrom\":\"quick_inquiry\",\"pricePropertyValueIds\":[3987,2014,33734,12479,2125,2118,2114,2134,13787,13791,14165,36215,6982,2067,2129,12604,2026,9625,13542,2104,2045,13842,2100,2106,19234,2108,2808,3168,5300,6947,6949,9507,11210,20268],\"productId\":121769}", false);  // 调用avmpSign方法
         System.out.println(wtoken);  // 打印wtoken
