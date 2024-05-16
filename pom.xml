@@ -14,7 +14,11 @@
     <name>springboot-wxcloudrun</name>
     <description>Demo project for Spring Boot</description>
     <properties>
+        <!-- 项目构建属性 -->
         <java.version>1.8</java.version>
+        <unidbg.version>0.9.7</unidbg.version>
+        <!-- 默认跳过单元测试 为嘛加这个跳过呢，参考这个issues https://github.com/anjia0532/unidbg-boot-server/issues/5 -->
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +53,32 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-api</artifactId>
+            <version>${unidbg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-android</artifactId>
+            <version>${unidbg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-dynarmic</artifactId>
+            <version>${unidbg.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>unidbg-api</artifactId>
+                    <groupId>com.github.zhkl0228</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-unicorn2</artifactId>
+            <version>${unidbg.version}</version>
         </dependency>
     </dependencies>
 
