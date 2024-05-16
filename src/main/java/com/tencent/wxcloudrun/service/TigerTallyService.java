@@ -111,7 +111,7 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
         Memory memory = emulator.getMemory();
         memory.setLibraryResolver(new AndroidResolver(23));
         vm = emulator.createDalvikVM();
-        DalvikModule dm = vm.loadLibrary(soFile, true); // 加载so到虚拟内存
+        DalvikModule dm = vm.loadLibrary(new File("/app/libtiger_tally.so"), true); // 加载so到虚拟内存
         module = dm.getModule(); //获取本SO模块的句柄
         vm.setJni(this);
         vm.setVerbose(false);
