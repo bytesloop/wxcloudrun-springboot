@@ -100,8 +100,8 @@ public class TigerTallyService extends AbstractJni implements IOResolver<Android
 
     public TigerTallyService() throws IOException {
         // String soPath = "classpath:files/libtiger_tally.so";  // ResourceUtils.getFile(soPath),
-        ClassPathResource resource = new ClassPathResource("files/libtiger_tally.so");
-        File soFile = resource.getFile(); // 此方法会解压资源到一个临时文件
+        // ClassPathResource resource = new ClassPathResource("files/libtiger_tally.so");
+        // File soFile = resource.getFile(); // 此方法会解压资源到一个临时文件
 
         emulator = androidEmulatorBuilder.build();
         SyscallHandler<AndroidFileIO> syscallHandler =
